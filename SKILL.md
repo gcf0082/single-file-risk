@@ -116,16 +116,9 @@ description: 当用户要求审查/扫描/审计单个文件的安全问题时�
 
 ### 记录结果
 
-将 JSON 压缩为单行，通过 stdin 传给脚本，自动追加到 `.secscan/results.jsonl`：
-
 ```bash
 echo '<单行json>' | python <skill_dir>/scripts/collect_result.py
 ```
-
-- 每个文件的结果必须是**单行 JSON**（不含内部换行）。
-- 支持传入多行，每行一个文件。
-- 多次扫描同一文件会产生多行记录（均保留）。
-- 每行输出 `✓ 已记录: <file>` 或 `✗ 写入失败: ...`。
 
 ## 工作流
 

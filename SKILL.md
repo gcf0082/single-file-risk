@@ -131,7 +131,7 @@ description: 当用户要求审查/扫描/审计单个文件的安全问题时�
 5. 统计标签，组装 JSON。
 6. 调用脚本记录结果。将完整的 JSON 字符串作为唯一参数，在工作目录执行：
    ```bash
-   python3 <skill_dir>/scripts/collect_result.py '<json_string>'
+   python <skill_dir>/scripts/collect_result.py '<json_string>'
    ```
    脚本会自动创建 `.secscan/` 目录并追加到 `.secscan/results.json`。
    - `content` 模式（`file: "inline"`）也会写入，key 为 `"inline"`。

@@ -3,26 +3,10 @@ import json
 from pathlib import Path
 
 
-def upsert(file_key, data, output_file):
-    if output_file.exists():
-        with open(output_file, "r") as f:
-            aggregate = json.load(f)
-    else:
-        aggregate = {"files": {}}
-
-    aggregate["files"][file_key] = data
-    aggregate["metadata"] = {
-        "total_files": len(aggregate["files"]),
-    }
-
-    with open(output_file, "w") as f:
-        json.dump(aggregate, f, ensure_ascii=False, indent=2)
-
-
 def main():
     output_dir = Path.cwd() / ".secscan"
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_file = output_dir / "results.json"
+    output_file = output_dir / "results.jsonl"
     has_error = False
 
     for line in sys.stdin:
@@ -44,7 +28,8 @@ def main():
             continue
 
         try:
-            upsert(file_key, data, output_file)
+            with open(output_file, "a") as f:
+                f.write(line + "\n")
             print(f"✓ 已记录: {file_key}")
         except Exception as e:
             print(f"✗ 写入失败: {file_key} - {e}")

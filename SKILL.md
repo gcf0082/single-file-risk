@@ -129,14 +129,15 @@ description: 当用户要求审查/扫描/审计单个文件的安全问题时�
 3. 逐行扫描。对每一个你具体看到的安全相关的东西，记一个点：选最合适的标签、记行号、抄原文片段、写事实。
 4. 在"只讲事实"的规则内尽量穷尽——测试人员宁可看到 30 条有根有据的观察，也不要 5 条花哨的。但每个点都必须有据可查；绝不拿推测来凑数。
 5. 统计标签，组装 JSON。
-6. 调用脚本记录结果。将完整的 JSON 字符串作为唯一参数，在工作目录执行：
+6. 调用脚本记录结果。通过 stdin 传入 JSON 字符串，每行一个文件的结果：
    ```bash
-   python <skill_dir>/scripts/collect_result.py '<json_string>'
+   echo '<json_string>' | python <skill_dir>/scripts/collect_result.py
    ```
-   脚本会自动创建 `.secscan/` 目录并追加到 `.secscan/results.json`。
+   脚本自动创建 `.secscan/` 目录并追加到 `.secscan/results.json`。
+   - 支持一行一个 JSON，可批量处理。
    - `content` 模式（`file: "inline"`）也会写入，key 为 `"inline"`。
    - 同一文件重扫会覆盖更新。
-   - 脚本会输出 `✓ 已记录: <file>` 或 `✗ 写入失败: ...`。
+   - 每行输出 `✓ 已记录: <file>` 或 `✗ 写入失败: ...`。
 7. 输出 JSON 给用户。
 8. 如果观察不到任何安全相关的东西，仍输出 JSON，`"points": []`，并加一个顶层 `"note": "未观察到安全相关内容"`。
 

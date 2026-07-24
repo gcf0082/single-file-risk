@@ -6,7 +6,7 @@ from pathlib import Path
 def main():
     output_dir = Path.cwd() / ".secscan"
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_file = output_dir / "results.jsonl"
+    output_file = output_dir / "results.json"
     has_error = False
 
     for line in sys.stdin:
